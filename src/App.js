@@ -78,10 +78,8 @@ function App() {
 
   const updateToDo = (toDoObject) => {
     let _tItems = [...tItems]
-    const indexSearch = (item) => item.id === toDoObject.id;
-    const index = _tItems.findIndex(indexSearch)
-    console.log(index)
-    _tItems.splice(index,1,toDoObject)
+
+    _tItems.splice(toDoIndex(toDoObject.id),1,toDoObject)
     tItemsUpdate([..._tItems])
 
     console.log("end update")
@@ -90,21 +88,55 @@ function App() {
   const deleteToDo = (toDoObject) => {
     
     let _tItems = [...tItems]
-    const indexSearch = (item) => item.id === toDoObject.id;
-    const index = _tItems.findIndex(indexSearch)
-    console.log(index)
-    _tItems.splice(index,1)
-    tItemsUpdate([..._tItems])
-    //get index of toDoObject
-    //update tItems with _tItems.splice(index,1)
-    
-    console.log("end delete")
 
+    _tItems.splice(toDoIndex(toDoObject.id),1)
+    tItemsUpdate([..._tItems])
+        
+    console.log("end delete")
   }
 
   const selectToDo = (toDoObject) => {
     selectedItemUpdate(toDoObject.id);
     console.log("selected Item Complete")
+  }
+
+  const keyPress = (event) => {
+    //handle keyPress for to do navigation
+  
+    if(event.key==="ArrowDown"){
+      toDoIndexChange(1)
+
+    } else if (event.key ==="ArrowUp"){
+      toDoIndexChange(-1)
+
+    } 
+    // else if (event.key ==="Delete" ||
+    //            event.key ==="BackSpace") {
+    //     console.log("got backspace")
+    // }
+
+
+  }
+
+  const toDoIndexChange =(value)=>{
+    //Change the selected Item based on its index position
+    //value is the change required
+    //i.e. -1 goes back 1 goes forward
+   
+    let newSelectedIndex = toDoIndex(selectedItem)+value;
+
+    if (newSelectedIndex<0) newSelectedIndex=tItems.length-1
+    if (newSelectedIndex>tItems.length-1) newSelectedIndex = 0
+    
+    selectedItemUpdate(tItems[newSelectedIndex].id)
+    
+  }
+
+  const toDoIndex = (id)=>{
+    let _tItems = [...tItems]
+    const indexSearch = (item) => item.id === id;
+    const index = _tItems.findIndex(indexSearch)
+    return index
   }
 
 
@@ -116,7 +148,7 @@ function App() {
       <toDo-main>
         <toDo-Col>
           <header>To Do</header>
-          <toDo-content>
+          <toDo-content tabIndex={0} onKeyDown={keyPress}>
             {readToDo()}
           </toDo-content>
           <footer></footer>
