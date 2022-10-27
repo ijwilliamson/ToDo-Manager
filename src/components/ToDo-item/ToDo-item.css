@@ -1,6 +1,8 @@
+/* to do item styles */
+
 toDo-item{
     margin: 10px;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     height:50px;
     display:flex;
     flex-direction: row;
@@ -23,12 +25,6 @@ toDo-item toDo-icon{
     
 }
 
-toDo-item toDo-icon:hover icon-item{
-    /* display:flex;
-    transition-property: display;
-    transition-duration: 1s; */
-}
-
 toDo-item toDo-info{
     
     flex-grow: 1;
@@ -40,7 +36,6 @@ toDo-item toDo-info{
 
 toDo-item toDo-info toDo-title{
     height:50%;
-    background-color: rgb(255, 255, 255);
     width:calc(100% - 20px);
     padding-left:10px;
     padding-right:20px;
@@ -50,7 +45,6 @@ toDo-item toDo-info toDo-title{
 }
 toDo-item toDo-info toDo-date{
    
-    background-color: rgb(255, 255, 255);
     padding-left:10px;
     font-size: 12px;
     
@@ -65,8 +59,12 @@ toDo-item toDo-info toDo-cat{
     border-radius: 0 0 10px 0;
 }
 
+.selected{
+    background-color: rgb(209, 248, 191);
+}
 
 
+/* Icon bar and item styles */
 
 
 icon-bar{
