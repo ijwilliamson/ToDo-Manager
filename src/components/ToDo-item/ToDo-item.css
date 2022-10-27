@@ -4,22 +4,31 @@ toDo-item{
     height:50px;
     display:flex;
     flex-direction: row;
+    justify-content: space-between;
     border: 1px solid black;
     border-radius: 10px;
-    filter:drop-shadow(1px 1px 2px grey)
+    filter:drop-shadow(1px 1px 2px grey);
 }
 
 toDo-item toDo-icon{
-    width:50px;
+    flex-shrink: 0;
+    width:50px !important;
     height:100%;
     background-color: rgb(214, 214, 214);
     display:flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    filter:drop-shadow(1px 1px 1px grey)
+    filter:drop-shadow(1px 1px 1px grey);
     
 }
+
+toDo-item toDo-icon:hover icon-item{
+    /* display:flex;
+    transition-property: display;
+    transition-duration: 1s; */
+}
+
 toDo-item toDo-info{
     
     flex-grow: 1;
@@ -40,7 +49,7 @@ toDo-item toDo-info toDo-title{
     line-height: 24px;
 }
 toDo-item toDo-info toDo-date{
-    width:50%;
+   
     background-color: rgb(255, 255, 255);
     padding-left:10px;
     font-size: 12px;
@@ -55,3 +64,43 @@ toDo-item toDo-info toDo-cat{
     padding-right:10px;
     border-radius: 0 0 10px 0;
 }
+
+
+
+
+
+icon-bar{
+    display:flex;
+    position:absolute;
+    left:50px;
+    box-shadow: inset 2px 0px 2px rgb(46, 44, 51);
+    filter:drop-shadow(1px 1px 1px grey);
+    z-index: 1;
+    background-color: rgb(214, 214, 214);
+    border-radius: 0 10px 10px 0;
+    
+}
+
+icon-item{
+    margin:2px;
+   width:36px;
+   height:36px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    /* display:none; */
+    transition-property: display;
+    transition-duration: 1s;
+}
+
+icon-item:hover{
+    background-color: aliceblue;
+    border-radius: 10px;
+ }
+
+ .visibleFlex{
+    display:flex;
+ }
+ .hide{
+    display:none;
+ }

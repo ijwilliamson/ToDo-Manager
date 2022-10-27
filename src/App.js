@@ -1,45 +1,115 @@
-import { useState } from 'react';
-
+import { useRef, useState, useEffect } from 'react';
 import './App.css';
-import ToDoItem from './ToDo-Item';
-import ToDoCreator from './ToDoCreator';
-import toDos from './startingItems';
+import ToDoItem from './components/ToDo-item/ToDo-Item';
+import ToDoCreator from './components/ToDoCreator/ToDoCreator';
 
-let firstRun = true;
-
+const _LocalStorageKey = 'toDoManager.toDoItems'
+const _LocalAutoIdKey = 'toDoManager.autoId'
 
 function App() {
 
   const [tItems, tItemsUpdate] = useState([]);
-  
+  let autoId = useRef(1000);
 
-  if(firstRun) {
-    
-    tItemsUpdate([...toDos]);
-    firstRun = false;
+  useEffect(() => {
+    const localStorageToDos = JSON.parse(localStorage.getItem(_LocalStorageKey))
+   
+    if (tItems){
+
+      if (localStorageToDos){
+        tItemsUpdate(localStorageToDos)
+        autoId.current = Number(localStorage.getItem(_LocalAutoIdKey));
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+      if (tItems.length>0){
+         localStorage.setItem(_LocalStorageKey, JSON.stringify(tItems))
+         localStorage.setItem(_LocalAutoIdKey, autoId.current)
+      }
+     
+  }, [tItems])
+
+
+
+  //CRUD for managing data
+  //Could be replaced with Database functions.
+
+  const createToDo = (title, doDate, category) =>{
+    // Insert new To Do into the tItems
+
+    console.log("handle insertToDo")
+    const _tItems = [...tItems]
+    tItemsUpdate( [..._tItems,
+      
+        {id: autoId.current,
+          title: title,
+          notes: "",
+          created: new Date(),
+          doByDate: doDate,
+          complete: false,
+          completedOn: null,
+          category: category,
+          urgent: false,
+          icon: 0}
+
+    ])
+    autoId.current +=  1;
   }
-  
 
-    const JSXArray = toDos.map((item, id) => {
-      return (
-        <ToDoItem key={id} title={item.title}
-        notes={item.notes} created={item.created}
-        doByDate={item.doByDate} complete={item.complete}
-        completedOn={item.completedOn} category={item.category}
-        urgent={item.urgent} ></ToDoItem>
-      )
-    });
+  const readToDo = (filter) => {
+    let readArray = []
+    if (tItems.length){
+      readArray = tItems.map((item, id) => {
+        return (
+          <ToDoItem key={id} item={item} 
+                    update={updateToDo}
+                    delete={deleteToDo}/>
+        )
+      });
+    }
+    return(readArray)
+  }
+
+  const updateToDo = (toDoObject) => {
+    let _tItems = [...tItems]
+    const indexSearch = (item) => item.id === toDoObject.id;
+    const index = _tItems.findIndex(indexSearch)
+    console.log(index)
+    _tItems.splice(index,1,toDoObject)
+    tItemsUpdate([..._tItems])
+
+    console.log("end update")
+  }
+
+  const deleteToDo = (toDoObject) => {
+    
+    let _tItems = [...tItems]
+    const indexSearch = (item) => item.id === toDoObject.id;
+    const index = _tItems.findIndex(indexSearch)
+    console.log(index)
+    _tItems.splice(index,1)
+    tItemsUpdate([..._tItems])
+    //get index of toDoObject
+    //update tItems with _tItems.splice(index,1)
+    
+    console.log("end delete")
+
+  }
 
 
 
   return (
+    //This section needs work, it is not very dynamic and
+    //probably goes overboard with the custom elements
     <to-Do>
-      <toDo-header><ToDoCreator/></toDo-header>
+      <toDo-header><ToDoCreator callback={createToDo}/></toDo-header>
       <toDo-main>
         <toDo-Col>
           <header>To Do</header>
           <toDo-content>
-            {JSXArray}
+            {readToDo()}
           </toDo-content>
           <footer></footer>
         </toDo-Col>
