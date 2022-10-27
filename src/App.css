@@ -1,38 +1,111 @@
-.App {
-  text-align: center;
+to-Do{
+ display:flex;
+ flex-direction: column;
+ background: linear-gradient(153deg, rgba(12,3,32,1) 0%, rgba(90,64,195,1) 64%, rgba(0,0,0,1) 100%);height:100vh;
+ align-items: center;
+
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+toDo-header{
+  
+  background-color: rgb(44, 44, 44);
+  width: 100%;
+  height: 80px;
+  
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+toDo-main{
+  display:flex;
+  flex-direction: row;
+  flex-grow: 1;
+  width:100%;
+  max-width: 1400px;
+  flex-grow: 1;
+
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+toDo-footer{
+  display:block;
+  background-color: rgb(53, 53, 53);
+  width: 100%;
+  height: 24px;
+  align-self: flex-end;
+}
+
+toDo-Col{
+  
+  background-color: rgb(26, 10, 68);
+  margin:20px;
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  justify-content: space-between;
+  border-radius: 20px;
+  filter:drop-shadow(3px 3px 1px rgb(95, 95, 95));
+  box-shadow: inset 2px 2px 6px rgb(162, 113, 253);
+  max-width: 400px;
+
 }
 
-.App-link {
-  color: #61dafb;
+toDo-Col header{
+  height:50px;
+  background-color: rgb(68, 16, 151);
+  border-radius: 20px 20px 0 0;
+  box-shadow: inset 2px 2px 6px rgb(194, 194, 194);
+  color:white;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 50px;
+  font-weight: 500;
+  font-size: 22px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+toDo-Col footer{
+  height:50px;
+  background-color: rgb(49, 42, 73);
+  border-radius: 0 0 20px 20px;
+  box-shadow: inset 2px 2px 6px rgb(194, 194, 194);
 }
+
+toDo-Col toDo-content{
+  flex-grow: 1;
+  display:flex;
+  flex-direction: column;
+}
+
+toDo-DayGroup{
+  
+  margin:20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 20px;
+}
+
+toDo-Day{
+  height:30%;
+  background-color: rgb(26, 10, 68);
+  border-radius: 20px;
+  filter:drop-shadow(3px 3px 1px rgb(95, 95, 95));
+  box-shadow: inset 2px 2px 6px rgb(194, 194, 194);
+  
+}
+
+toDo-Day header{
+  height:50px;
+  background-color: rgb(68, 16, 151);
+  border-radius: 20px 20px 0 0;
+  box-shadow: inset 2px 2px 6px rgb(194, 194, 194);
+  color:white;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 50px;
+  font-weight: 500;
+  font-size: 22px;
+}
+
+
