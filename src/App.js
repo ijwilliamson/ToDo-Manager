@@ -9,6 +9,7 @@ const _LocalAutoIdKey = 'toDoManager.autoId'
 function App() {
 
   const [tItems, tItemsUpdate] = useState([]);
+  const [selectedItem, selectedItemUpdate] = useState(null);
   let autoId = useRef(1000);
 
   useEffect(() => {
@@ -65,7 +66,10 @@ function App() {
         return (
           <ToDoItem key={id} item={item} 
                     update={updateToDo}
-                    delete={deleteToDo}/>
+                    delete={deleteToDo}
+                    select={selectToDo}
+                    isSelected={(item.id===selectedItem) ?true : false}
+                    />
         )
       });
     }
@@ -98,6 +102,10 @@ function App() {
 
   }
 
+  const selectToDo = (toDoObject) => {
+    selectedItemUpdate(toDoObject.id);
+    console.log("selected Item Complete")
+  }
 
 
   return (

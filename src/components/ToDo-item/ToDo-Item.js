@@ -8,8 +8,12 @@ import { ToDoIcon, AllToDoIcons } from '../ToDo-icons/ToDo-icons';
 
 const ToDoItem = (props) => {
     //props
-    //  id, title, notes, created, doByDate, 
-    //  complete, completedOn, category, urgent
+    //  id - autoId number
+    //  item - to do object
+    //  isSelected - bool
+    //  update - function
+    //  delete - function
+    //  select - function
 
     const [iconsVisible, seticonsVisible] = useState(false)
 
@@ -20,15 +24,11 @@ const ToDoItem = (props) => {
     }
 
     const changeIconHandler = (index) =>{
-      // console.log(event.currentTarget.attributes[0].nodeValue)
-      // let icon = event.currentTarget.attributes[0].nodeValue
-       let _toDoObject = props.item;
-       _toDoObject.icon = index;
-       updateItem(_toDoObject)
+      
+      let _toDoObject = props.item;
+      _toDoObject.icon = index;
+      updateItem(_toDoObject)
 
-
-
-      console.log(index)
     }
 
     const updateItem =(toDoObject)=>{
@@ -41,10 +41,17 @@ const ToDoItem = (props) => {
       props.delete(props.item);
     }
 
+    const selectItem =() =>{
+      console.log("begin selection")
+      props.select(props.item);
+    }
     
 
+
     return(
-      <toDo-item draggable="true"  >
+      <toDo-item draggable="true"
+                 class={(props.isSelected) ? "selected" : ""} 
+                 onClick={selectItem}>
      
         <toDo-icon onClick={toggleIconBar}>
           {ToDoIcon(props.item.icon)}
