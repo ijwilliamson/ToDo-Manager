@@ -160,14 +160,15 @@ function App() {
       let _currentBin = currentBin;
       _currentBin = (_currentBin<4) ? currentBin+1 : 0;
       currentBinUpdate(_currentBin)
-    
     } 
     else if (event.key ==="Delete" || event.key ==="Backspace") {
       
       const toDoObject = tItems[currentBin][toDoIndex(selectedItem)]
       deleteToDo(toDoObject)
-      console.log("got delete")}
-
+      console.log("got delete")
+    } else if (event.key ==="Enter" || event.key ==="Return") {
+      toggleEdit();
+    }
   }
 
 // To Do management functions

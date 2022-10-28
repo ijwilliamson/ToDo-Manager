@@ -22,35 +22,7 @@ const ToDoIcon=(value) => {
     
     return Icons[value];
     
-    // switch(value){
-    //     case "ExclamationCircle":
-    //       return <ExclamationCircle color="red" size={24} />
-          
-    //     case "Archive":
-    //       return <Archive color="green" size={24}/>
-          
-    //     case "Bug":
-    //       return <Bug color="blue" size={24}/>
-        
-    //     case "ChatDots":
-    //       return <ChatDots color="brown" size={24}/>
-         
-    //     case "Envelope":
-    //       return <Envelope color="mauve" size={24}/>
-        
-    //     case "Folder":
-    //       return <Folder color="purple" size={24}/>
-         
-    //     case "Lightbulb":
-    //       return <Lightbulb color="azure" size={24}/>
-          
-    //     case "Telephone":
-    //       return <Telephone color="yellow" size={24}/>
-        
-    //     default:
-    //       return <ExclamationCircle color="red" size={24} />
-    // }
-}
+   }
 
 const AllToDoIcons=() => {
     return Icons;
