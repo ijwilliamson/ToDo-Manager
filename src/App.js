@@ -27,7 +27,13 @@ function App() {
   }, [])
 
   useEffect(() => {
-      if (tItems.length>0){
+      let itemCount = 0;
+      for (let i=0; i<tItems.length;i++){
+        for(let ii=0;ii<tItems[i].length;i++){
+          itemCount+=1
+        }
+      }
+      if (itemCount>0){
          localStorage.setItem(_LocalStorageKey, JSON.stringify(tItems))
          localStorage.setItem(_LocalAutoIdKey, autoId.current)
       }
@@ -43,11 +49,7 @@ function App() {
 
     console.log("handle insertToDo")
     let _tItems = [...tItems]
-
-    // extract just the current bin items
-    // const _bin = [..._tItems[bin]]
     
-    // add the new item to the temp bin copy
     const newToDo =
         {id: autoId.current,
           title: title,
@@ -60,7 +62,7 @@ function App() {
           urgent: false,
           icon: 0}
 
-    // remove the old bin and insert the new bin
+    // add the new item to the currentBin of the temp tItems
     _tItems[currentBin].push(newToDo)
 
     // update the items
@@ -89,7 +91,12 @@ function App() {
   const updateToDo = (toDoObject) => {
     let _tItems = [...tItems]
 
-    _tItems.splice(toDoIndex(toDoObject.id),1,toDoObject)
+    let _currentBinItems = [..._tItems[currentBin]]
+
+    _currentBinItems.splice(toDoIndex(toDoObject.id),1,toDoObject)
+    
+    _tItems.splice(currentBin,1,_currentBinItems)
+
     tItemsUpdate([..._tItems])
 
     console.log("end update")
@@ -104,7 +111,7 @@ function App() {
     
     //Move selection to next item
     const index = toDoIndex(toDoObject.id);
-    if (index === tItems.length-1){
+    if (index === tItems[currentBin].length-1){
       toDoIndexChange(-1);
     } else {
       toDoIndexChange(1);
@@ -112,11 +119,20 @@ function App() {
     
     //Delete the to Do item    
     let _tItems = [...tItems]
-    _tItems.splice(toDoIndex(toDoObject.id),1)
+
+    let _currentBinItems = [..._tItems[currentBin]]
+
+    _currentBinItems.splice(index,1)
+    
+    _tItems.splice(currentBin,1,_currentBinItems)
+    
     tItemsUpdate([..._tItems])
     
     console.log("end delete")
   }
+
+
+
 
 // User Interaction functions
 
@@ -137,7 +153,7 @@ function App() {
     } 
     else if (event.key ==="Delete" || event.key ==="Backspace") {
       
-      const toDoObject = tItems[toDoIndex(selectedItem)]
+      const toDoObject = tItems[currentBin][toDoIndex(selectedItem)]
       deleteToDo(toDoObject)
       console.log("got delete")}
 
@@ -153,16 +169,17 @@ function App() {
     //i.e. -1 goes back 1 goes forward
    
     let newSelectedIndex = toDoIndex(selectedItem)+value;
+    console.log(newSelectedIndex)
+    if (newSelectedIndex<0) newSelectedIndex=tItems[currentBin].length-1
+    if (newSelectedIndex>tItems[currentBin].length-1) newSelectedIndex = 0
+    console.log(newSelectedIndex)
 
-    if (newSelectedIndex<0) newSelectedIndex=tItems.length-1
-    if (newSelectedIndex>tItems.length-1) newSelectedIndex = 0
-    
-    selectedItemUpdate(tItems[newSelectedIndex].id)
+    selectedItemUpdate(tItems[currentBin][newSelectedIndex].id)
     
   }
 
   const toDoIndex = (id)=>{
-    let _tItems = [...tItems]
+    let _tItems = [...tItems[currentBin]]
     const indexSearch = (item) => item.id === id;
     const index = _tItems.findIndex(indexSearch)
     return index
@@ -188,13 +205,7 @@ function App() {
            <ToDoContent binId={0} read={readToDo} 
                         keydown={keyPress} focus={onBinFocus} 
                         selected={(currentBin==0)?true : false}/>
-         
-         
-          {/* <toDo-content binId={0} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
-            {readToDo(0)}
-          </toDo-content>  */}
-
-          {/* <footer></footer> */}
+        
         </toDo-Col>
 
         <toDo-Col>
@@ -248,12 +259,12 @@ const ToDoContent = (props) => {
 // console.log(props.read(0))
 
    const JSX = props.read(props.binId);
-  console.log(props.selected)
+  
   return (
     <toDo-content binId={props.binId} tabIndex={0} 
                   onKeyDown={props.keydown} 
                   onFocus={props.focus}
-                  class={(props.selected)?"contentSelected":""}>
+                  class={(props.selecmoveted)?"contentSelected":""}>
     {JSX}
   </toDo-content>
   )
