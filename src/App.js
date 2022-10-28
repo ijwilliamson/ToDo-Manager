@@ -8,8 +8,10 @@ const _LocalAutoIdKey = 'toDoManager.autoId'
 
 function App() {
 
-  const [tItems, tItemsUpdate] = useState([]);
+ 
+  const [tItems, tItemsUpdate] = useState([[],[],[],[],[]]);
   const [selectedItem, selectedItemUpdate] = useState(null);
+  const [currentBin, currentBinUpdate] = useState(0);
   let autoId = useRef(1000);
 
   useEffect(() => {
@@ -40,9 +42,13 @@ function App() {
     // Insert new To Do into the tItems
 
     console.log("handle insertToDo")
-    const _tItems = [...tItems]
-    tItemsUpdate( [..._tItems,
-      
+    let _tItems = [...tItems]
+
+    // extract just the current bin items
+    // const _bin = [..._tItems[bin]]
+    
+    // add the new item to the temp bin copy
+    const newToDo =
         {id: autoId.current,
           title: title,
           notes: "",
@@ -54,14 +60,19 @@ function App() {
           urgent: false,
           icon: 0}
 
-    ])
+    // remove the old bin and insert the new bin
+    _tItems[currentBin].push(newToDo)
+
+    // update the items
+    tItemsUpdate(_tItems)
+
     autoId.current +=  1;
   }
 
-  const readToDo = (filter) => {
+  const readToDo = (bin) => {
     let readArray = []
-    if (tItems.length){
-      readArray = tItems.map((item, id) => {
+    if (tItems[bin].length){
+      readArray = tItems[bin].map((item, id) => {
         return (
           <ToDoItem key={id} item={item} 
                     update={updateToDo}
@@ -157,7 +168,11 @@ function App() {
     return index
   }
 
-
+  const onBinFocus = (event)=>{
+    const binId = event.currentTarget.attributes[0].value
+    console.log(event.currentTarget.attributes[0].value)
+    currentBinUpdate(binId)
+  }
 
 // JSX return
 
@@ -165,32 +180,45 @@ function App() {
     //This section needs work, it is not very dynamic and
     //probably goes overboard with the custom elements
     <to-Do>
-      <toDo-header><ToDoCreator callback={createToDo}/></toDo-header>
+      <toDo-header><ToDoCreator callback={createToDo} onFocus={onBinFocus}/></toDo-header>
       <toDo-main>
         <toDo-Col>
           <header>To Do</header>
-          <toDo-content tabIndex={0} onKeyDown={keyPress}>
-            {readToDo()}
+          <toDo-content binId={0} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
+            {readToDo(0)}
           </toDo-content>
           <footer></footer>
         </toDo-Col>
         <toDo-Col>
         <header>Completed</header>
-          <toDo-content>
-
+          <toDo-content binId={1} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
+            {readToDo(1)}
           </toDo-content>
           
         </toDo-Col>
         <toDo-DayGroup>
+
           <toDo-Day>
             <header>URGENT</header>
+            <toDo-content binId={2} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
+              {readToDo(2)}
+          </toDo-content>
           </toDo-Day>
+
           <toDo-Day>
-          <header>PARKED</header>
+            <header>PARKED</header>
+            <toDo-content binId={3} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
+                {readToDo(3)}
+            </toDo-content>
           </toDo-Day>
+
           <toDo-Day>
             <header>BIN</header>
+            <toDo-content binId={4} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
+                {readToDo(4)}
+            </toDo-content>
           </toDo-Day>
+
           </toDo-DayGroup>
       </toDo-main>
       <toDo-footer></toDo-footer>
