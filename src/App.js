@@ -182,44 +182,53 @@ function App() {
     <to-Do>
       <toDo-header><ToDoCreator callback={createToDo} onFocus={onBinFocus}/></toDo-header>
       <toDo-main>
+
         <toDo-Col>
           <header>To Do</header>
-          <toDo-content binId={0} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
+           <ToDoContent binId={0} read={readToDo} 
+                        keydown={keyPress} focus={onBinFocus} 
+                        selected={(currentBin==0)?true : false}/>
+         
+         
+          {/* <toDo-content binId={0} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
             {readToDo(0)}
-          </toDo-content>
-          <footer></footer>
+          </toDo-content>  */}
+
+          {/* <footer></footer> */}
         </toDo-Col>
+
         <toDo-Col>
         <header>Completed</header>
-          <toDo-content binId={1} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
-            {readToDo(1)}
-          </toDo-content>
+        <ToDoContent binId={1} read={readToDo} 
+                        keydown={keyPress} focus={onBinFocus} 
+                        selected={(currentBin==1)?true : false}/>
           
         </toDo-Col>
+
         <toDo-DayGroup>
 
           <toDo-Day>
             <header>URGENT</header>
-            <toDo-content binId={2} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
-              {readToDo(2)}
-          </toDo-content>
+            <ToDoContent binId={2} read={readToDo} 
+                        keydown={keyPress} focus={onBinFocus} 
+                        selected={(currentBin==2)?true : false}/>
           </toDo-Day>
 
           <toDo-Day>
             <header>PARKED</header>
-            <toDo-content binId={3} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
-                {readToDo(3)}
-            </toDo-content>
+            <ToDoContent binId={3} read={readToDo} 
+                        keydown={keyPress} focus={onBinFocus} 
+                        selected={(currentBin==3)?true : false}/>
           </toDo-Day>
 
           <toDo-Day>
             <header>BIN</header>
-            <toDo-content binId={4} tabIndex={0} onKeyDown={keyPress} onFocus={onBinFocus}>
-                {readToDo(4)}
-            </toDo-content>
+            <ToDoContent binId={4} read={readToDo} 
+                        keydown={keyPress} focus={onBinFocus} 
+                        selected={(currentBin==4)?true : false}/>
           </toDo-Day>
 
-          </toDo-DayGroup>
+        </toDo-DayGroup>
       </toDo-main>
       <toDo-footer></toDo-footer>
       
@@ -228,6 +237,27 @@ function App() {
 }
 
 
+const ToDoContent = (props) => {
 
+  //props 
+  //read function
+  //bin Id
+  //selected function
+  //keyPress function
+
+// console.log(props.read(0))
+
+   const JSX = props.read(props.binId);
+  console.log(props.selected)
+  return (
+    <toDo-content binId={props.binId} tabIndex={0} 
+                  onKeyDown={props.keydown} 
+                  onFocus={props.focus}
+                  class={(props.selected)?"contentSelected":""}>
+    {JSX}
+  </toDo-content>
+  )
+
+} 
 
 export default App;
