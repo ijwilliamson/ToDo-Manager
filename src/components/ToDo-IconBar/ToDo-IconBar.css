@@ -1,0 +1,38 @@
+/* Icon bar and item styles */
+
+
+icon-bar{
+    display:flex;
+    position:absolute;
+    left:50px;
+    box-shadow: inset 2px 0px 2px rgb(46, 44, 51);
+    filter:drop-shadow(1px 1px 1px grey);
+    z-index: 1;
+    background-color: rgb(214, 214, 214);
+    border-radius: 0 10px 10px 0;
+    
+}
+
+icon-item{
+    margin:2px;
+   width:36px;
+   height:36px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    /* display:none; */
+    transition-property: display;
+    transition-duration: 1s;
+}
+
+icon-item:hover{
+    background-color: aliceblue;
+    border-radius: 10px;
+ }
+
+ .visibleFlex{
+    display:flex;
+ }
+ .hide{
+    display:none;
+ }

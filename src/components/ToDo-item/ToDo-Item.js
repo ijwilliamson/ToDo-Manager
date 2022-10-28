@@ -1,10 +1,7 @@
 import { useState } from 'react';
 import './ToDo-item.css';
-
-import { ToDoIcon, AllToDoIcons } from '../ToDo-icons/ToDo-icons';
-
-
-
+import IconBar from '../ToDo-IconBar/ToDo-IconBar';
+import {ToDoIcon} from '../ToDo-icons/ToDo-icons';
 
 const ToDoItem = (props) => {
     //props
@@ -41,9 +38,13 @@ const ToDoItem = (props) => {
       props.delete(props.item);
     }
 
-    const selectItem =() =>{
+    const selectItem =(event) =>{
       console.log("begin selection")
-      props.select(props.item);
+      props.select(props.item)
+      if(event.detail===2){
+        props.edit();
+      }
+      
     }
     
 
@@ -51,7 +52,8 @@ const ToDoItem = (props) => {
     return(
       <toDo-item draggable="true"
                  class={(props.isSelected) ? "selected" : ""} 
-                 onClick={selectItem}>
+                 onClick={selectItem}
+                 >
      
         <toDo-icon onClick={toggleIconBar}>
           {ToDoIcon(props.item.icon)}
@@ -68,26 +70,26 @@ const ToDoItem = (props) => {
   
 }
 
-const IconBar = (props) => {
+// const IconBar = (props) => {
  
-const classes = ()=>{
-    return (props.visible) ? "visibleFlex" : "hide";
-}
-  return(
-    <icon-bar class={classes()} >
-      {AllToDoIcons().map((icon, index)=>{
+// const classes = ()=>{
+//     return (props.visible) ? "visibleFlex" : "hide";
+// }
+//   return(
+//     <icon-bar class={classes()} >
+//       {AllToDoIcons().map((icon, index)=>{
         
-        return (
-          <icon-item key={index} 
-                     onClick={()=>props.iconChangedEvent(index)}>
-            {icon}
-          </icon-item>
-        )
+//         return (
+//           <icon-item key={index} 
+//                      onClick={()=>props.iconChangedEvent(index)}>
+//             {icon}
+//           </icon-item>
+//         )
         
-      })}
+//       })}
 
-      </icon-bar>
-  )
-}
+//       </icon-bar>
+//   )
+// }
 
 export default ToDoItem;
