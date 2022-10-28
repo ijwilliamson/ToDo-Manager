@@ -33,7 +33,6 @@ function App() {
   }, [tItems])
 
 
-
   //CRUD for managing data
   //Could be replaced with Database functions.
 
@@ -86,14 +85,29 @@ function App() {
   }
 
   const deleteToDo = (toDoObject) => {
+    console.log(`type of = ${typeof toDoObject}`)
+   
+    // check the passed object is valid
+    if (typeof toDoObject === "undefined") return;
     
+    
+    //Move selection to next item
+    const index = toDoIndex(toDoObject.id);
+    if (index === tItems.length-1){
+      toDoIndexChange(-1);
+    } else {
+      toDoIndexChange(1);
+    }
+    
+    //Delete the to Do item    
     let _tItems = [...tItems]
-
     _tItems.splice(toDoIndex(toDoObject.id),1)
     tItemsUpdate([..._tItems])
-        
+    
     console.log("end delete")
   }
+
+// User Interaction functions
 
   const selectToDo = (toDoObject) => {
     selectedItemUpdate(toDoObject.id);
@@ -110,13 +124,17 @@ function App() {
       toDoIndexChange(-1)
 
     } 
-    // else if (event.key ==="Delete" ||
-    //            event.key ==="BackSpace") {
-    //     console.log("got backspace")
-    // }
-
+    else if (event.key ==="Delete" || event.key ==="Backspace") {
+      
+      const toDoObject = tItems[toDoIndex(selectedItem)]
+      deleteToDo(toDoObject)
+      console.log("got delete")}
 
   }
+
+
+
+// To Do management functions
 
   const toDoIndexChange =(value)=>{
     //Change the selected Item based on its index position
@@ -139,6 +157,9 @@ function App() {
     return index
   }
 
+
+
+// JSX return
 
   return (
     //This section needs work, it is not very dynamic and
