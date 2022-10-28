@@ -3,7 +3,7 @@ to-Do{
  flex-direction: column;
  background: linear-gradient(153deg, rgba(12,3,32,1) 0%, rgba(90,64,195,1) 64%, rgba(0,0,0,1) 100%);height:100vh;
  align-items: center;
-
+  max-height: 100vh;
 }
 
 toDo-header{
@@ -17,6 +17,8 @@ toDo-header{
   align-items: center;
 }
 
+
+
 toDo-main{
   display:flex;
   flex-direction: row;
@@ -24,7 +26,7 @@ toDo-main{
   width:100%;
   max-width: 1400px;
   flex-grow: 1;
-
+  max-height:calc(100% - 104px);
 }
 
 toDo-footer{
@@ -47,6 +49,8 @@ toDo-Col{
   filter:drop-shadow(3px 3px 1px rgb(95, 95, 95));
   box-shadow: inset 2px 2px 6px rgb(162, 113, 253);
   max-width: 400px;
+
+  
 
 }
 
@@ -75,8 +79,12 @@ toDo-Col toDo-content, toDo-Day toDo-Content{
   display:flex;
   flex-direction: column;
   border-radius: 0 0 20px 20px;
+  max-height: 100%;
+  overflow-y: scroll;
 }
-
+::-webkit-scrollbar {
+  display: none;
+}
 .contentSelected{
   background-color: rgb(210, 221, 208);
   flex-grow: 1;
