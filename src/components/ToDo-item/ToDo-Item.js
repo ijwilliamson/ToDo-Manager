@@ -47,10 +47,17 @@ const ToDoItem = (props) => {
       
     }
     
+    const onDragStart =(args)=>{
+        let dragObject = JSON.stringify({id:props.item.id, bin:args.target.parentNode.attributes[0].value});
+     
+        args.dataTransfer.setData("text", dragObject)
+
+    }
 
 
     return(
       <toDo-item draggable="true"
+                 onDragStart={(args)=>onDragStart(args)}
                  class={(props.isSelected) ? "selected" : ""} 
                  onClick={selectItem}
                  >
@@ -70,26 +77,5 @@ const ToDoItem = (props) => {
   
 }
 
-// const IconBar = (props) => {
- 
-// const classes = ()=>{
-//     return (props.visible) ? "visibleFlex" : "hide";
-// }
-//   return(
-//     <icon-bar class={classes()} >
-//       {AllToDoIcons().map((icon, index)=>{
-        
-//         return (
-//           <icon-item key={index} 
-//                      onClick={()=>props.iconChangedEvent(index)}>
-//             {icon}
-//           </icon-item>
-//         )
-        
-//       })}
-
-//       </icon-bar>
-//   )
-// }
 
 export default ToDoItem;

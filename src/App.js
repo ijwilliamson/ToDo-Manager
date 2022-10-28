@@ -3,6 +3,7 @@ import './App.css';
 import ToDoItem from './components/ToDo-item/ToDo-Item';
 import ToDoCreator from './components/ToDoCreator/ToDoCreator';
 import ToDoEditForm from './components/ToDo-Edit/ToDo-Edit';
+import ToDoContent from './components/ToDo-Container/ToDo-Container';
 
 const _LocalStorageKey = 'toDoManager.toDoItems'
 const _LocalAutoIdKey = 'toDoManager.autoId'
@@ -16,7 +17,6 @@ function App() {
 
   const [editing, setEditing] = useState(false);
   
-
   let autoId = useRef(1000);
 
   useEffect(() => {
@@ -35,8 +35,10 @@ function App() {
       let itemCount = 0;
       for (let i=0; i<tItems.length;i++){
         for(let ii=0;ii<tItems[i].length;i++){
-          itemCount+=1
+          itemCount+=1;
+          if (itemCount>0) break;
         }
+        if (itemCount>0) break;
       }
       if (itemCount>0){
          localStorage.setItem(_LocalStorageKey, JSON.stringify(tItems))
@@ -44,7 +46,6 @@ function App() {
       }
      
   }, [tItems])
-
 
   //CRUD for managing data
   //Could be replaced with Database functions.
@@ -86,8 +87,7 @@ function App() {
                     delete={deleteToDo}
                     select={selectToDo}
                     edit={toggleEdit}
-                    isSelected={(item.id===selectedItem) ?true : false}
-                    />
+                    isSelected={(item.id===selectedItem) ?true : false}/>
         )
       });
     }
@@ -211,6 +211,33 @@ function App() {
     currentBinUpdate(binId)
   }
 
+  const processDrag = (data, newBin) =>{
+      
+      //get Items
+      let _tItems = [...tItems]
+      
+      // get item index
+      const indexSearch = (item) => item.id === data.id;
+      const index = _tItems[data.bin].findIndex(indexSearch)
+
+      //copy item to new bin
+      let _tItem = JSON.parse(JSON.stringify(_tItems[data.bin][index])) 
+      _tItems[newBin].push(_tItem)
+
+      //delete orignal item
+      _tItems[data.bin].splice(index,1)
+  
+      tItemsUpdate([..._tItems])
+      
+      console.log("end move")
+
+
+
+
+
+  }
+
+
 // JSX return
 
   return (
@@ -229,7 +256,7 @@ function App() {
 
         <toDo-Col>
           <header>To Do</header>
-           <ToDoContent binId={0} read={readToDo} 
+           <ToDoContent binId={0} read={readToDo} processDrag = {processDrag}
                         keydown={keyPress} focus={onBinFocus} 
                         selected={(currentBin==0)?true : false}/>
         
@@ -237,7 +264,7 @@ function App() {
 
         <toDo-Col>
         <header>Completed</header>
-        <ToDoContent binId={1} read={readToDo} 
+        <ToDoContent binId={1} read={readToDo} processDrag = {processDrag}
                         keydown={keyPress} focus={onBinFocus} 
                         selected={(currentBin==1)?true : false}/>
           
@@ -247,21 +274,21 @@ function App() {
 
           <toDo-Day>
             <header>URGENT</header>
-            <ToDoContent binId={2} read={readToDo} 
+            <ToDoContent binId={2} read={readToDo} processDrag = {processDrag}
                         keydown={keyPress} focus={onBinFocus} 
                         selected={(currentBin==2)?true : false}/>
           </toDo-Day>
 
           <toDo-Day>
             <header>PARKED</header>
-            <ToDoContent binId={3} read={readToDo} 
+            <ToDoContent binId={3} read={readToDo} processDrag = {processDrag}
                         keydown={keyPress} focus={onBinFocus} 
                         selected={(currentBin==3)?true : false}/>
           </toDo-Day>
 
           <toDo-Day>
             <header>BIN</header>
-            <ToDoContent binId={4} read={readToDo} 
+            <ToDoContent binId={4} read={readToDo} processDrag = {processDrag}
                         keydown={keyPress} focus={onBinFocus} 
                         selected={(currentBin==4)?true : false}/>
           </toDo-Day>
@@ -276,27 +303,5 @@ function App() {
 }
 
 
-const ToDoContent = (props) => {
-
-  //props 
-  //read function
-  //bin Id
-  //selected function
-  //keyPress function
-
-// console.log(props.read(0))
-
-   const JSX = props.read(props.binId);
-  
-  return (
-    <toDo-content binId={props.binId} tabIndex={0} 
-                  onKeyDown={props.keydown} 
-                  onFocus={props.focus}
-                  class={(props.selected)?"contentSelected":""}>
-    {JSX}
-  </toDo-content>
-  )
-
-} 
 
 export default App;
