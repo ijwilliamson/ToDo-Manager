@@ -152,7 +152,15 @@ function App() {
 
     } else if (event.key ==="ArrowUp"){
       toDoIndexChange(-1)
-
+    } else if (event.key ==="ArrowLeft"){
+      let _currentBin = currentBin;
+      _currentBin = (_currentBin>0) ? currentBin-1 : 4;
+      currentBinUpdate(_currentBin)
+    } else if (event.key ==="ArrowRight"){
+      let _currentBin = currentBin;
+      _currentBin = (_currentBin<4) ? currentBin+1 : 0;
+      currentBinUpdate(_currentBin)
+    
     } 
     else if (event.key ==="Delete" || event.key ==="Backspace") {
       
@@ -284,7 +292,7 @@ const ToDoContent = (props) => {
     <toDo-content binId={props.binId} tabIndex={0} 
                   onKeyDown={props.keydown} 
                   onFocus={props.focus}
-                  class={(props.selecmoveted)?"contentSelected":""}>
+                  class={(props.selected)?"contentSelected":""}>
     {JSX}
   </toDo-content>
   )
