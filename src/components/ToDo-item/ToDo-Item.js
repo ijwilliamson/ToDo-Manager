@@ -70,7 +70,7 @@ const ToDoItem = (props) => {
         <toDo-info>
           <toDo-title>{props.item.title}</toDo-title>
           <toDo-date>{new Date(props.item.doByDate).toLocaleDateString()}</toDo-date>
-          <toDo-cat onClick={deleteItem}>{props.item.category}</toDo-cat>
+          <toDo-cat >{props.item.category}</toDo-cat>
         </toDo-info>
       </toDo-item>
     )
