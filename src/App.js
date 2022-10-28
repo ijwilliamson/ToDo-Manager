@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import './App.css';
 import ToDoItem from './components/ToDo-item/ToDo-Item';
 import ToDoCreator from './components/ToDoCreator/ToDoCreator';
+import ToDoEditForm from './components/ToDo-Edit/ToDo-Edit';
 
 const _LocalStorageKey = 'toDoManager.toDoItems'
 const _LocalAutoIdKey = 'toDoManager.autoId'
@@ -12,6 +13,10 @@ function App() {
   const [tItems, tItemsUpdate] = useState([[],[],[],[],[]]);
   const [selectedItem, selectedItemUpdate] = useState(null);
   const [currentBin, currentBinUpdate] = useState(0);
+
+  const [editing, setEditing] = useState(false);
+  
+
   let autoId = useRef(1000);
 
   useEffect(() => {
@@ -80,6 +85,7 @@ function App() {
                     update={updateToDo}
                     delete={deleteToDo}
                     select={selectToDo}
+                    edit={toggleEdit}
                     isSelected={(item.id===selectedItem) ?true : false}
                     />
         )
@@ -131,9 +137,6 @@ function App() {
     console.log("end delete")
   }
 
-
-
-
 // User Interaction functions
 
   const selectToDo = (toDoObject) => {
@@ -159,8 +162,6 @@ function App() {
 
   }
 
-
-
 // To Do management functions
 
   const toDoIndexChange =(value)=>{
@@ -185,6 +186,17 @@ function App() {
     return index
   }
 
+  const beginEdit = ()=>{
+    const index = toDoIndex(selectedItem);
+    const toDoObject = tItems[currentBin][index];
+    return toDoObject
+  }
+
+  const toggleEdit = ()=>{
+    setEditing(!editing)
+    console.log("toogle edit")
+  }
+
   const onBinFocus = (event)=>{
     const binId = event.currentTarget.attributes[0].value
     console.log(event.currentTarget.attributes[0].value)
@@ -196,6 +208,13 @@ function App() {
   return (
     //This section needs work, it is not very dynamic and
     //probably goes overboard with the custom elements
+    <>
+    {(editing) ?
+      <ToDoEditForm visible={editing} update={updateToDo} cancel={toggleEdit} item={(editing)?beginEdit():undefined}/>
+      :
+      <></>
+    }
+    
     <to-Do>
       <toDo-header><ToDoCreator callback={createToDo} onFocus={onBinFocus}/></toDo-header>
       <toDo-main>
@@ -244,6 +263,7 @@ function App() {
       <toDo-footer></toDo-footer>
       
     </to-Do>
+    </>
   );
 }
 
